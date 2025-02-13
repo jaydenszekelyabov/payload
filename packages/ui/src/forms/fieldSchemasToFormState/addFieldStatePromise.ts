@@ -1,19 +1,19 @@
-import type {
-  ClientFieldSchemaMap,
-  Data,
-  DocumentPreferences,
-  Field,
-  FieldSchemaMap,
-  FieldState,
-  FormState,
-  FormStateWithoutComponents,
-  PayloadRequest,
-  SanitizedFieldPermissions,
-  SanitizedFieldsPermissions,
-  Validate,
-} from 'payload'
-
 import ObjectIdImport from 'bson-objectid'
+import {
+  captureError,
+  type ClientFieldSchemaMap,
+  type Data,
+  type DocumentPreferences,
+  type Field,
+  type FieldSchemaMap,
+  type FieldState,
+  type FormState,
+  type FormStateWithoutComponents,
+  type PayloadRequest,
+  type SanitizedFieldPermissions,
+  type SanitizedFieldsPermissions,
+  type Validate,
+} from 'payload'
 import {
   deepCopyObjectSimple,
   fieldAffectsData,
@@ -213,11 +213,7 @@ export const addFieldStatePromise = async (args: AddFieldStatePromiseArgs): Prom
         })
       } catch (err) {
         validationResult = `Error validating field at path: ${path}`
-
-        req.payload.logger.error({
-          err,
-          msg: validationResult,
-        })
+        await captureError({ err, msg: validationResult, req })
       }
     }
 
